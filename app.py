@@ -27,6 +27,7 @@ app = Flask(__name__)
 # Home Page
 @app.route("/")
 def home():
+    session=Session(engine)
     return (
     f"The available routes are:<br/>"
     f"Perciptiation: /api/v1.0/precipitation<br/>"
@@ -41,10 +42,10 @@ def home():
 def percipitation():
     session = Session(engine)
     query_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
-
+#The query
     percip_date=session.query(Measurement.date, Measurement.prcp).\
     filter(Measurement.date>=query_date).all()
-
+#making a list
     precip_list = {date: prcp for date, prcp in percip_date}
 
     return jsonify(precip_list)
